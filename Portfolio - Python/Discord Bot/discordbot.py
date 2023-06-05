@@ -1,18 +1,39 @@
 #Import Discord.py, allows access to Discord API
+#Imports other important imports
 import discord
-from discord import Client, Intents
-intents = discord.Intents.default()
-client = Client(intents=intents)
+from discord.ext import commands
+import requests
+import json
 
 #Load Discord Token from dotenv
 import os
 from dotenv import load_dotenv
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+TENOR_TOKEN = os.getenv("TENOR_TOKEN")
 
 
 #Gets client object from Discord.py, Client is synonymous with bot
-bot = discord.Client()
+embedColour = 0x00ff00
+command_prefix = '$'
+bot = commands.Bot(command_prefix='$')
+
+limit = 10
+
+#Tenor GIFS
+def get_gif(searchTerm):
+    response = requests.get("https://tenor.googleapis.com/v2/search?q=%s&key=%s&limit=%s" % (searchTerm, TENOR_TOKEN, limit))
+    data = response.json()
+
+
+    if 'results' in data and len(data['results']) > 0:
+        for result in data['results']:
+            if 'media' in result and len(result['media']) > 0:
+                for media in result['media']:
+                    if 'gif' in media and 'url' in media['gif']:
+                        return media['gif']['url']
+
+    return None
 
 #Event Listener for when the bot has switched from offline to online
 @bot.event
@@ -30,6 +51,7 @@ async def on_ready():
         #Prints how many servers the bot is in
         print(f'There are {guild_count} servers that Mashbot is in.')
 
+
 #Event listener for when a new message is sent to a channel
 @bot.event
 async def on_message(message):
@@ -41,6 +63,20 @@ async def on_message(message):
         #Sends a message to the channel
         await message.channel.send('Hello!')
 
+    if message.content.lower().startswith(f"{command_prefix}gif"):
+        gif_url = get_gif(message.content.lower()[5:])
+
+        if gif_url is not None:
+            embed = discord.Embed()
+            embed.set_image(url=gif_url)
+        
+            await message.channel.send(embed=embed)
+
+        else:
+            await message.channel.send("Sorry, I couldn't find a gif for that search term.")
+
+
+#--- Main ---
 #Executes bot with specified token
 if DISCORD_TOKEN is not None:
     bot.run(DISCORD_TOKEN.strip())
