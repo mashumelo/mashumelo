@@ -5,6 +5,7 @@ from discord.ext import commands
 import requests
 import aiohttp
 import json
+import random
 
 #Load Discord Token from dotenv
 import os
@@ -21,16 +22,17 @@ bot = commands.Bot(command_prefix='$')
 
 limit = 10
 
-#Tenor GIFS
+#GIPHY GIFS
 def get_gif(searchTerm):
     response = requests.get("https://api.giphy.com/v1/gifs/search?api_key=%s&q=%s&limit=%s" % (GIPHY_API_KEY, searchTerm, limit))
     data = response.json()
 
 
     if 'data' in data and len(data['data']) > 0:
-        return data['data'][0]['images']['original']['url']
+        index = random.randint(0, min(9, len(data['data'])-1))
+        return data['data'][index]['images']['original']['url']
 
-    return None
+    return ('')
 
 #Event Listener for when the bot has switched from offline to online
 @bot.event
