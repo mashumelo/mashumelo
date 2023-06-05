@@ -11,8 +11,8 @@ import random
 import os
 from dotenv import load_dotenv
 load_dotenv()
-DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-GIPHY_API_KEY = os.getenv("GIPHY_API_KEY")
+DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
+GIPHY_API_KEY = os.environ.get("GIPHY_API_KEY")
 
 
 #Gets client object from Discord.py, Client is synonymous with bot
