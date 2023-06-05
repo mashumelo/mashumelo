@@ -8,12 +8,12 @@ The beginning of this repository will be for code as I learn to develop more eff
 I hope to someday develop FOSS to help those with issues they may be having, and hopefully to help within the Linux community. It's been my favorite OS for many years, and has helped me improve in many skills within understanding CLI and bash.
 
 Currently working on PHP, HTML, Javascript, Python, and C++.
-VSCode is the current IDE I'm using, and so far prefer.
+VSCodium is the current Code Editor I'm using, and so far prefer.
 
 I am working to push this repository to both github and gitlab eventually.
 
 <!--
-**WaylonDN/waylondn** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**Mashumelo/mashumelo** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
 
