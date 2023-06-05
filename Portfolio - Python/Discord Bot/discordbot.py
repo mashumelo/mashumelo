@@ -3,6 +3,7 @@
 import discord
 from discord.ext import commands
 import requests
+import aiohttp
 import json
 
 #Load Discord Token from dotenv
@@ -10,7 +11,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-TENOR_TOKEN = os.getenv("TENOR_TOKEN")
+GIPHY_API_KEY = os.getenv("GIPHY_API_KEY")
 
 
 #Gets client object from Discord.py, Client is synonymous with bot
@@ -22,16 +23,12 @@ limit = 10
 
 #Tenor GIFS
 def get_gif(searchTerm):
-    response = requests.get("https://tenor.googleapis.com/v2/search?q=%s&key=%s&limit=%s" % (searchTerm, TENOR_TOKEN, limit))
+    response = requests.get("https://api.giphy.com/v1/gifs/search?api_key=%s&q=%s&limit=%s" % (GIPHY_API_KEY, searchTerm, limit))
     data = response.json()
 
 
-    if 'results' in data and len(data['results']) > 0:
-        for result in data['results']:
-            if 'media' in result and len(result['media']) > 0:
-                for media in result['media']:
-                    if 'gif' in media and 'url' in media['gif']:
-                        return media['gif']['url']
+    if 'data' in data and len(data['data']) > 0:
+        return data['data'][0]['images']['original']['url']
 
     return None
 
