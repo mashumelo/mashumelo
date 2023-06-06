@@ -6,6 +6,7 @@ import requests
 import aiohttp
 import json
 import random
+import secrets
 
 #Load Discord and GIPHY Tokens from dotenv
 import os
@@ -61,6 +62,7 @@ async def on_message(message):
         #Sends a message to the channel
         await message.channel.send('Hello!')
 
+    #Command to import GIF from GIPHY as an Embed
     if message.content.lower().startswith(f"{command_prefix}gif"):
         gif_url = get_gif(message.content.lower()[5:])
 
@@ -72,6 +74,33 @@ async def on_message(message):
 
         else:
             await message.channel.send("Sorry, I couldn't find a gif for that search term.")
+
+    #Added a basic Coinflip command that works via $flip
+    if message.content.lower().startswith(f"{command_prefix}flip"):
+        
+        result = random.randint(0, 1)
+        
+        if result == 0:
+            await message.channel.send('Heads!')
+        else:
+            await message.channel.send('Tails!')
+
+    #Added a basic d20 Dice roll command that works with $roll <number of rolls>d<limit>
+    if message.content.lower().startswith(f"{command_prefix}roll"):
+        try:
+            dice = message.content.split()[1]
+            rolls, limit = map(int, dice.split('d'))
+        except Exception:
+            await message.channel.send('Invalid syntax, use $roll <number of rolls>d<limit>')
+            return
+        results = [secrets.randbelow(limit) + 1 for _ in range(rolls)]
+        total = sum(results)
+
+        response = f'{message.author.mention} rolled {dice} and got {results}'
+        if rolls > 1:
+            response += f'\nTotal: {total}'
+
+        await message.channel.send(response)  
 
 
 # Event listener for when a member's attributes are updated
