@@ -1,3 +1,4 @@
+
 from datetime import datetime
 import speech_recognition as sr
 for index, name in enumerate(sr.Microphone.list_microphone_names()):
@@ -5,6 +6,28 @@ for index, name in enumerate(sr.Microphone.list_microphone_names()):
 import pyttsx3
 import webbrowser
 import wikipedia
+import json
+import spotipy
+
+#Import dotenv
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+#Validate Spotify
+username = os.environ.get('user_name')
+clientID = os.environ.get('client_ID')
+clientSecret = os.environ.get('client_secret')
+redirect_uri = os.environ.get('redirect_uri')
+
+oauth_object = spotipy.SpotifyOAuth(clientID, clientSecret, redirect_uri)
+token_dict = oauth_object.get_access_token()
+token = token_dict['access_token']
+spotifyObject = spotipy.Spotify(auth=token)
+user_name = spotifyObject.current_user()
+
+#To print the response in readable format
+print(json.dumps(user_name, indent=4, sort_keys=True))
 
 #Speech engine initialization
 engine = pyttsx3.init()
@@ -112,6 +135,27 @@ if __name__ == '__main__':
                 speak('Opening...')
                 query = ' '.join(query[1:])
                 webbrowser.get('spotify').open_new(query)
+
+            #Spotify Song Search in Browser
+            if query[0] == 'play' and query[1] == 'spotify':
+                speak('Opening...')
+                query = ' '.join(query[3:])
+                search_song = query.replace('play', '')
+                results = spotifyObject.search(search_song, 1, 0, 'track')
+                songs_dict = results['tracks']
+                song_items = songs_dict['items']
+                song = song_items[0]['external_urls']['spotify']
+                webbrowser.open(song)
+                print('Song has been opened.')
+                speak('Song has been opened.')
+
+            #Spotify Pause Playback
+            if query[0] == 'pause' and query[1] == 'spotify':
+                spotifyObject.pause_playback(query)
+
+            #Spotify Start Playback
+            if query[0] == 'resume' and query[1] == 'spotify':
+                spotifyObject.start_playback(query)
 
             #Steam
             if query[0] == 'open' and query[1] == 'steam':

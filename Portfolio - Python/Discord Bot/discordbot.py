@@ -7,7 +7,7 @@ import aiohttp
 import json
 import random
 
-#Load Discord Token from dotenv
+#Load Discord and GIPHY Tokens from dotenv
 import os
 from dotenv import load_dotenv
 load_dotenv()
