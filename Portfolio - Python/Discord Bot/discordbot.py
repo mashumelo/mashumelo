@@ -75,15 +75,16 @@ async def on_message(message):
         else:
             await message.channel.send("Sorry, I couldn't find a gif for that search term.")
 
-    #Added a basic Coinflip command that works via $flip
-    if message.content.lower().startswith(f"{command_prefix}flip"):
-        
+    #Added a basic Coinflip command that works via $coinflip
+    if message.content.lower().startswith(f"{command_prefix}coinflip"):
         result = random.randint(0, 1)
-        
         if result == 0:
-            await message.channel.send('Heads!')
+            result = 'heads'
         else:
-            await message.channel.send('Tails!')
+            result = 'tails'
+        response = f'{message.author.mention} flipped a coin and got {result}'
+
+        await message.channel.send(response)
 
     #Added a basic d20 Dice roll command that works with $roll <number of rolls>d<limit>
     if message.content.lower().startswith(f"{command_prefix}roll"):
