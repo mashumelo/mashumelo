@@ -1,20 +1,7 @@
 # --- Setup ---
-
+# Importing libraries
 import toml
 
-
-config_data = {
-    "information": {
-        "name": "Adventure Game Demo",
-        "authors": "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]",
-        "version": "1.0.0",
-        "description": "Simple text adventure game demo",
-        "readme": "README.md",
-        "website": "https://github.com/mashumelo/mashumelo",
-    }}
-
-with open("config.toml", "w") as f:
-    toml.dump(config_data, f)
 
 # Function to ask play again or not
 

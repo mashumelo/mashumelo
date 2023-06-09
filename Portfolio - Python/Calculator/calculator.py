@@ -27,21 +27,6 @@ def squared(x):
 def exppower(x, y):
     return x**y
 
-
-# Defining dictionary
-config_data = {
-    "information": {
-        "name": "Calculator",
-        "authors": "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]",
-        "version": "1.0.0",
-        "description": "Simple calculator",
-        "readme": "README.md",
-        "website": "https://github.com/mashumelo/mashumelo",
-    }}
-
-with open("config.toml", "w") as f:
-    toml.dump(config_data, f)
-
 # Creating a looping statement that breaks when you don't want to perform another calculation
 while True:
 

@@ -1,10 +1,8 @@
 # --- Setup ---
-
-import toml
-
 # Import speech_recognition, pyttsx3, wikipedia, spotipy, and other sources
 from dotenv import load_dotenv
 import os
+import toml
 import spotipy
 import json
 import wikipedia
@@ -197,33 +195,3 @@ if __name__ == '__main__':
             if query[0] == 'exit':
                 speak('Goodbye')
                 break
-
-# Exports config.toml
-config_data = {
-    "information": {
-    "name": "AI Assistant",
-    "authors": "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]",
-    "version": "0.0.5",
-    "description": "Mashumelo's personal AI Assistant",
-    "readme": "README.md",
-    "website": "https://github.com/mashumelo/mashumelo",
-    },
-    "config": {
-    "activation_word": "computer",
-    "firefox_path": "/usr/bin/firefox",
-    "spotify_path": "/usr/bin/spotify",
-    "steam_path": "/home/mashumelo/.steam/debian-installation/steam.sh",
-    "discord_path": "/usr/bin/discord",
-    "voice": 11,
-    "rate": 120
-    },
-    "dependencies": {
-    "pyttsx3": "2.90.0",
-    "wikipedia": "1.4.0",
-    "spotipy": "2.23.0",
-    "speech_recognition": "3.10.0"
-    }
-}
-
-with open('config.toml', 'w') as f:
-    toml.dump(config_data, f)

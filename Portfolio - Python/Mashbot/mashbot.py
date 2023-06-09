@@ -9,10 +9,10 @@ import aiohttp
 import json
 import random
 import secrets
-import toml
 
 # Load Discord and GIPHY tokens from .env
 import os
+import toml
 from dotenv import load_dotenv
 load_dotenv()
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
@@ -20,37 +20,11 @@ GIPHY_API_KEY = os.environ.get("GIPHY_API_KEY")
 
 
 # Gets client object from discord.py, client is synonymous with bot
-embedColour = 0x00ff00
+embedColour = 0x00FF00
 command_prefix = "!"
 bot = commands.Bot(command_prefix="!")
 
 limit = 10
-
-# Exports config.toml
-config_data = {
-    "information": {
-    "name": "Mashbot",
-    "authors": "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]",
-    "version": "0.0.5",
-    "description": "Mashumelo's personal Discord bot",
-    "readme": "README.md",
-    "website": "https://github.com/mashumelo/mashumelo",
-    },              
-    "config": {
-        "embedColour": 0x00ff00,
-        "command_prefix": "!",
-        "limit": 10
-    },
-    "dependencies": {
-        "discord.py": "1.7.2",
-        "giphy_client": "3.0.0",
-        "toml": "0.10.2"
-    }
-}
-
-with open("config.toml", "w") as f:
-    toml.dump(config_data, f)
-
 
 # --- Main ---
 
@@ -94,48 +68,62 @@ async def on_message(message):
     if message.content == ("Hello"):
         # Sends a message to the channel
         await message.channel.send(f"Hello, {mention.member} welcome to {guild.name}!")
-    # Command to import GIF from GIPHY as an embed via $gif <searchTerm>
-    if message.content.lower().startswith(f"{command_prefix}gif"):
-        gif_url = get_gif(message.content.lower()[5:])
-        if gif_url is not None:
-            embed = discord.Embed()
-            embed.set_image(url=gif_url)
-            await message.channel.send(embed=embed)
-        else:
-            await message.channel.send("Sorry, I couldn't find a gif for that search term.")
+    await bot.process_commands(message)
 
+
+@bot.command(description="Usage: !gif <searchTerm> - Searches GIPHY and displays a random gif from a search term")
+async def gif(ctx, *, search: str):
+    # Command to import GIF from GIPHY as an embed via $gif <searchTerm>
+    embed = discord.Embed()
+    gif_url = await get_gif(search)
+    if gif_url is not None:
+        embed.set_image(url=gif_url)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send("Sorry, I couldn't find a gif for that search term.")
+
+
+@bot.command(description="Usage: !coinflip - Flips a coin")
+async def coinflip(ctx):
     # Added a basic coinflip command that works via $coinflip
-    if message.content.lower().startswith(f"{command_prefix}coinflip"):
-        result = random.randint(0, 1)
-        if result == 0:
-            result = "heads"
-        else:
-            result = "tails"
-        response = f"{message.author.mention} flipped a coin and got {result}!"
+        result = random.choice(["heads", "tails"])
+        response = f"{ctx.author.mention} flipped a coin and got {result}!"
         embed = discord.Embed(
             title="Coin Flip", description=response, color=embedColour)
-        await message.channel.send(embed=embed)
+        await ctx.send(embed=embed)
 
+
+@bot.command(description="Usage: !roll <number of rolls>d<limit> - Rolls the dice")
+async def roll(ctx, dice: str):
     # Added a basic d20 dice roll command that works with $roll <number of rolls>d<limit>
-    if message.content.lower().startswith(f"{command_prefix}roll"):
         try:
-            dice = message.content.split()[1]
             rolls, limit = map(int, dice.split("d"))
         # If the syntax is invalid, send an error message
-        except Exception:
+        except ValueError:
             embed = discord.Embed(
                 title="Invalid syntax", description="Use !roll <number of rolls>d<limit>.", color=embedColour)
-            await message.channel.send(embed=embed)
+            await ctx.send(embed=embed)
             return
         # Roll the dice
-        results = [secrets.randbelow(limit) + 1 for _ in range(rolls)]
-        total = sum(results)
-        response = f"{message.author.mention} rolled {dice} and got {results}"
+        results = ", ".join(str(random.randint(1, limit))
+                            for _ in range(rolls))
         if rolls > 1:
-            response += f"\nTotal: {total}"
+            total = sum(map(int, results.split(",")))
+            results += f"\nTotal: {total}"
+        response = f"{ctx.author.mention} rolled {dice} and got {results}"
         embed = discord.Embed(
             title="Dice Roll", description=response, color=embedColour)
-        await message.channel.send(embed=embed)
+        await ctx.send(embed=embed)
+@bot.remove_command("help")
+@bot.command(description="Displays a list of available commands")
+async def help(ctx):
+    """Displays a list of available commands"""
+    embed = discord.Embed(title="Mashbot Command List", color=embedColour)
+    command_list = [
+        f"{command.name} - {command.description}" for command in bot.commands]
+    help_message = "\n".join(command_list)
+    embed.add_field(name="Commands", value=help_message, inline=False)
+    await ctx.send(embed=embed)
 
 # Event listener for when a member joins the server/guild
 
@@ -254,28 +242,3 @@ if DISCORD_TOKEN is not None:
 # If no token is provided
 else:
     print("No token provided")
-
-
-config_data = {
-    "information": {
-    "name": "Mashbot",
-    "authors": "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]",
-    "version": "0.0.5",
-    "description": "Mashumelo's personal Discord bot",
-    "readme": "README.md",
-    "website": "https://github.com/mashumelo/mashumelo",
-    },              
-    "config": {
-        "embedColour": 0x00ff00,
-        "command_prefix": "!",
-        "limit": 10
-    },
-    "dependencies": {
-        "discord.py": "1.7.2",
-        "giphy_client": "3.0.0",
-        "toml": "0.10.2"
-    }
-}
-
-with open("config.toml", "w") as f:
-    toml.dump(config_data, f)
