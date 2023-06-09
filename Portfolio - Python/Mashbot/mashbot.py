@@ -114,6 +114,8 @@ async def roll(ctx, dice: str):
         embed = discord.Embed(
             title="Dice Roll", description=response, color=embedColour)
         await ctx.send(embed=embed)
+
+
 @bot.remove_command("help")
 @bot.command(description="Displays a list of available commands")
 async def help(ctx):
