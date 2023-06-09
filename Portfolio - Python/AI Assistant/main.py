@@ -1,4 +1,6 @@
+# --- Setup ---
 
+# Import speech_recognition, pyttsx3, wikipedia, spotipy, and other sources
 from datetime import datetime
 import speech_recognition as sr
 for index, name in enumerate(sr.Microphone.list_microphone_names()):
@@ -9,12 +11,12 @@ import wikipedia
 import json
 import spotipy
 
-#Import dotenv
+# Import dotenv
 import os
 from dotenv import load_dotenv
 load_dotenv()
 
-#Validate Spotify
+# Validate Spotify
 username = os.environ.get('user_name')
 clientID = os.environ.get('client_ID')
 clientSecret = os.environ.get('client_secret')
@@ -26,32 +28,32 @@ token = token_dict['access_token']
 spotifyObject = spotipy.Spotify(auth=token)
 user_name = spotifyObject.current_user()
 
-#To print the response in readable format
+# To print the response in readable format
 print(json.dumps(user_name, indent=4, sort_keys=True))
 
-#Speech engine initialization
+# Speech engine initialization
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[11].id) #0 = male, 1 = female
+engine.setProperty('voice', voices[11].id)
 activationWord = 'computer' #Single word
 
-#Configure browser
-#Set the path
+# Configure browser
+# Set the path
 firefox_path = r"/usr/bin/firefox"
 webbrowser.register('firefox', None, webbrowser.BackgroundBrowser(firefox_path))
 
-#Configure Spotify
-#Set the path
+# Configure Spotify
+# Set the path
 spotify_path = r"/usr/bin/spotify"
 webbrowser.register('spotify', None, webbrowser.BackgroundBrowser(spotify_path))
 
-#Configure Steam
-#Set the path
+# Configure Steam
+# Set the path
 steam_path = r"/home/mashumelo/.steam/debian-installation/steam.sh"
 webbrowser.register('steam', None, webbrowser.BackgroundBrowser(steam_path))
 
-#Configure Discord
-#Set the path
+# Configure Discord
+# Set the path
 discord_path = r"/usr/bin/discord"
 webbrowser.register('discord', None, webbrowser.BackgroundBrowser(discord_path))
 
@@ -104,18 +106,18 @@ def listOrDict(var):
 
 
 
-#Main loop
+# --- Main ---
 if __name__ == '__main__':
     speak('All systems nominal.', 120)
 
     while True:
-        #Parse as a list
+        # Parse as a list
         query = parseCommand().lower().split()
 
         if query[0] == activationWord:
             query.pop(0)
 
-            #List commands
+            # List commands
             if query[0] == 'say':
                 if 'hello' in query:
                     speak('Greetings, all.')
@@ -124,19 +126,19 @@ if __name__ == '__main__':
                     speech = ' '.join(query)
                     speak(speech)
 
-            #Navigation
+            # Navigation for browser
             if query[0] == 'go' and query[1] == 'to':
                 speak('Opening...')
                 query = ' '.join(query[2:])
                 webbrowser.get('firefox').open_new(query)
 
-            #Spotify Application
+            # Spotify application
             if query[0] == 'open' and query[1] == 'spotify':
                 speak('Opening...')
                 query = ' '.join(query[1:])
                 webbrowser.get('spotify').open_new(query)
 
-            #Spotify Song Search in Browser
+            # Spotify song search in browser
             if query[0] == 'play' and query[1] == 'spotify':
                 speak('Opening...')
                 query = ' '.join(query[3:])
@@ -149,33 +151,33 @@ if __name__ == '__main__':
                 print('Song has been opened.')
                 speak('Song has been opened.')
 
-            #Spotify Pause Playback
+            # Spotify pause playback
             if query[0] == 'pause' and query[1] == 'spotify':
                 spotifyObject.pause_playback(query)
 
-            #Spotify Start Playback
+            # Spotify start playback
             if query[0] == 'resume' and query[1] == 'spotify':
                 spotifyObject.start_playback(query)
 
-            #Steam
+            # Steam application
             if query[0] == 'open' and query[1] == 'steam':
                 speak('Opening...')
                 query = ' '.join(query[1:])
                 webbrowser.get('steam').open_new(query)
 
-            #Discord
+            # Discord application
             if query[0] == 'open' and query[1] == 'discord':
                 speak('Opening...')
                 query = ' '.join(query[1:])
                 webbrowser.get('discord').open_new(query)
 
-            #wikipedia
+            # Wikipedia
             if query[0] == 'wikipedia':
                 query = ' '.join(query[1:])
                 speak('Querying the universal databank.')
                 speak(search_wikipedia(query))
 
-            #Note taking
+            # Note taking
             if query[0] == 'log':
                 speak('Ready to record your note')
                 newNote = parseCommand().lower()

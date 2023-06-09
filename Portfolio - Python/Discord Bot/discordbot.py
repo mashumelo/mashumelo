@@ -1,5 +1,7 @@
-#Import Discord.py, allows access to Discord API
-#Imports other important imports
+# --- Setup ---
+
+# Import Discord.py, allows access to Discord API
+# Imports other important imports
 import discord
 from discord.ext import commands
 import requests
@@ -8,7 +10,7 @@ import json
 import random
 import secrets
 
-#Load Discord and GIPHY Tokens from dotenv
+# Load Discord and GIPHY tokens from .env
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -16,53 +18,54 @@ DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
 GIPHY_API_KEY = os.environ.get("GIPHY_API_KEY")
 
 
-#Gets client object from Discord.py, Client is synonymous with bot
+# Gets client object from discord.py, client is synonymous with bot
 embedColour = 0x00ff00
-command_prefix = '$'
-bot = commands.Bot(command_prefix='$')
+command_prefix = "!"
+bot = commands.Bot(command_prefix="!")
 
 limit = 10
 
-#GIPHY GIFS
+# --- Main ---
+
+# Pull GIFs from GIPHY GIFs
 def get_gif(searchTerm):
     response = requests.get(f"https://api.giphy.com/v1/gifs/search?api_key={GIPHY_API_KEY}&q={searchTerm}&limit={limit}")
     data = response.json()
 
 
-    if 'data' in data and len(data['data']) > 0:
-        index = random.randint(0, min(9, len(data['data'])-1))
-        return data['data'][index]['images']['original']['url']
+    if "data" in data and len(data["data"]) > 0:
+        index = random.randint(0, min(9, len(data["data"])-1))
+        return data["data"][index]["images"]["original"]["url"]
 
-    return ('')
+    return ("")
 
-#Event Listener for when the bot has switched from offline to online
+# Event listener for when the bot has switched from offline to online
 @bot.event
 async def on_ready():
 
-    #Determines the number of servers/guilds the bot is in
+    # Determines the number of servers/guilds the bot is in
     guild_count = len(bot.guilds)
 
-    #Loops through all the servers the bot is associated with
+    # Loops through all the servers/guilds the bot is associated with
     for guild in bot.guilds:
-        #Print the servers ID and name
-        print(f'{guild.id} - (name: {guild.name})')
+        # print the servers ID and name
+        print(f"{guild.id} - (name: {guild.name})")
             
-    #Prints how many servers the bot is in
-    print(f'There are {guild_count} servers that Mashbot is in.')
+    # Print how many servers/guilds the bot is in
+    print(f"There are {guild_count} servers that Mashbot is in.")
 
-
-#Event listener for when a new message is sent to a channel
+# Event listener for when a new message is sent to a channel
 @bot.event
 async def on_message(message):
-    #If the message is from the bot, do nothing
+    # If the message is from the bot, do nothing
     if message.author == bot.user:
         return
-    #If the message is sent equal to "Hello"
-    if message.content == 'Hello':
-        #Sends a message to the channel
-        await message.channel.send('Hello!')
+    # If the message is sent equal to "Hello"
+    if message.content == ("Hello"):
+        # Sends a message to the channel
+        await message.channel.send(f"Hello, {mention.member}!")
 
-    #Command to import GIF from GIPHY as an Embed
+    # Command to import GIF from GIPHY as an embed via $gif <searchTerm>
     if message.content.lower().startswith(f"{command_prefix}gif"):
         gif_url = get_gif(message.content.lower()[5:])
 
@@ -75,34 +78,56 @@ async def on_message(message):
         else:
             await message.channel.send("Sorry, I couldn't find a gif for that search term.")
 
-    #Added a basic Coinflip command that works via $coinflip
+    # Added a basic coinflip command that works via $coinflip
     if message.content.lower().startswith(f"{command_prefix}coinflip"):
         result = random.randint(0, 1)
         if result == 0:
-            result = 'heads'
+            result = "heads"
         else:
-            result = 'tails'
-        response = f'{message.author.mention} flipped a coin and got {result}'
+            result = "tails"
+        response = f"{message.author.mention} flipped a coin and got {result}!"
 
         await message.channel.send(response)
 
-    #Added a basic d20 Dice roll command that works with $roll <number of rolls>d<limit>
+    # Added a basic d20 dice roll command that works with $roll <number of rolls>d<limit>
     if message.content.lower().startswith(f"{command_prefix}roll"):
         try:
             dice = message.content.split()[1]
-            rolls, limit = map(int, dice.split('d'))
+            rolls, limit = map(int, dice.split("d"))
+        # If the syntax is invalid, send an error message    
         except Exception:
-            await message.channel.send('Invalid syntax, use $roll <number of rolls>d<limit>')
+            await message.channel.send("Invalid syntax, use $roll <number of rolls>d<limit>")
             return
+        # Roll the dice    
         results = [secrets.randbelow(limit) + 1 for _ in range(rolls)]
         total = sum(results)
 
-        response = f'{message.author.mention} rolled {dice} and got {results}'
+        response = f"{message.author.mention} rolled {dice} and got {results}"
         if rolls > 1:
-            response += f'\nTotal: {total}'
+            response += f"\nTotal: {total}"
 
         await message.channel.send(response)  
 
+# Event listener for when a member joins the server/guild
+@bot.event
+async def on_member_join(member):
+    channel = bot.get_channel(1014448478933483580)
+    embed = discord.Embed(title=f"{member.mention} has joined the server!", description=f"Welcome to the server, {member.mention}!", color=discord.color.green())
+    await channel.send(embed=embed)
+
+# Event listener for when a member leaves the server/guild
+@bot.event
+async def on_member_leave(member):
+    channel = bot.get_channel(1014448478933483580)
+    embed = discord.Embed(title=f"{member.mention} has left the server!", description=f"Goodbye, {member.mention}!", color=discord.color.red())
+    await channel.send(embed=embed)
+
+# Event listener for when a member is banned from the server/guild
+@bot.event
+async def on_member_ban(member):
+    log_channel = bot.get_channel(1014448478933483580)
+    embed = discord.Embed(title=f"{member.name} has been banned from {member.guild.name}!", color=discord.Color.red())
+    await log_channel.send(embed=embed)
 
 # Event listener for when a member's attributes are updated
 @bot.event
@@ -114,6 +139,7 @@ async def on_member_update(before, after):
         removed_roles = [role for role in before.roles if role not in after.roles]
 
         # Log the role changes to a separate channel
+        # Log the role change for added roles
         if added_roles:
             role_names = [role.name for role in added_roles]
             role_colors = [role.color for role in added_roles]
@@ -124,6 +150,7 @@ async def on_member_update(before, after):
                 channel = bot.get_channel(1014448478425993250)
                 await channel.send(embed=embed)
 
+        # Log the role change for removed roles
         if removed_roles:
             role_names = [role.name for role in removed_roles]
             role_colors = [role.color for role in removed_roles]
@@ -145,20 +172,23 @@ async def on_member_update(before, after):
 @bot.event
 async def on_voice_state_update(member, before, after):
     if before.channel != after.channel:
+        
+        # Log the leave
         if before.channel:
             embed = discord.Embed(title="Voice Channel Leave", description=f"{member.name} left voice channel {before.channel.name}", color=discord.Color.red())
             channel = bot.get_channel(1014448478425993250)
             await channel.send(embed=embed)
-
+        
+        # Log the join
         if after.channel:
             embed = discord.Embed(title="Voice Channel Join", description=f"{member.name} joined voice channel {after.channel.name}", color=discord.Color.green())
             channel = bot.get_channel(1014448478425993250)
             await channel.send(embed=embed)
 
 
-#--- Main ---
-#Executes bot with specified token
+# Executes bot with specified token
 if DISCORD_TOKEN is not None:
     bot.run(DISCORD_TOKEN.strip())
+# If no token is provided
 else:
-    print('No token provided')
+    print("No token provided")
