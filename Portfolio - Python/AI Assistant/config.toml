@@ -10,9 +10,9 @@ website = "https://github.com/mashumelo/mashumelo"
 activation_word = "computer"
 discord_path = "/usr/bin/discord"
 firefox_path = "/usr/bin/firefox"
-rate = 120
 spotify_path = "/usr/bin/spotify"
 steam_path = "/home/mashumelo/.steam/debian-installation/steam.sh"
+rate = 120
 voice = 11
 
 [dependencies]
