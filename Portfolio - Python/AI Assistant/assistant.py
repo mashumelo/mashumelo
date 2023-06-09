@@ -218,10 +218,10 @@ config_data = {
     "rate": 120
     },
     "dependencies": {
-    "pyttsx3",
-    "wikipedia",
-    "spotipy",
-    "speech_recognition"
+    "pyttsx3": "2.90.0",
+    "wikipedia": "1.4.0",
+    "spotipy": "2.23.0",
+    "speech_recognition": "3.10.0"
     }
 }
 
