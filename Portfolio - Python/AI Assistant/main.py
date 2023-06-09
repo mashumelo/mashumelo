@@ -1,19 +1,20 @@
 # --- Setup ---
 
 # Import speech_recognition, pyttsx3, wikipedia, spotipy, and other sources
+from dotenv import load_dotenv
+import os
+import spotipy
+import json
+import wikipedia
+import webbrowser
+import pyttsx3
 from datetime import datetime
 import speech_recognition as sr
 for index, name in enumerate(sr.Microphone.list_microphone_names()):
-    print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
-import pyttsx3
-import webbrowser
-import wikipedia
-import json
-import spotipy
+    print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(
+        index, name))
 
 # Import dotenv
-import os
-from dotenv import load_dotenv
 load_dotenv()
 
 # Validate Spotify
@@ -35,17 +36,19 @@ print(json.dumps(user_name, indent=4, sort_keys=True))
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[11].id)
-activationWord = 'computer' #Single word
+activationWord = 'computer'  # Single word
 
 # Configure browser
 # Set the path
 firefox_path = r"/usr/bin/firefox"
-webbrowser.register('firefox', None, webbrowser.BackgroundBrowser(firefox_path))
+webbrowser.register(
+    'firefox', None, webbrowser.BackgroundBrowser(firefox_path))
 
 # Configure Spotify
 # Set the path
 spotify_path = r"/usr/bin/spotify"
-webbrowser.register('spotify', None, webbrowser.BackgroundBrowser(spotify_path))
+webbrowser.register(
+    'spotify', None, webbrowser.BackgroundBrowser(spotify_path))
 
 # Configure Steam
 # Set the path
@@ -55,12 +58,15 @@ webbrowser.register('steam', None, webbrowser.BackgroundBrowser(steam_path))
 # Configure Discord
 # Set the path
 discord_path = r"/usr/bin/discord"
-webbrowser.register('discord', None, webbrowser.BackgroundBrowser(discord_path))
+webbrowser.register(
+    'discord', None, webbrowser.BackgroundBrowser(discord_path))
 
-def speak(text, rate = 120):
+
+def speak(text, rate=120):
     engine.setProperty('rate', rate)
     engine.say(text)
     engine.runAndWait()
+
 
 def parseCommand():
     listener = sr.Recognizer()
@@ -82,7 +88,8 @@ def parseCommand():
 
         return query
 
-def search_wikipedia(query = ' '):
+
+def search_wikipedia(query=' '):
     searchResults = wikipedia.search(query)
     if not searchResults:
         print('No wikipedia result')
@@ -97,13 +104,12 @@ def search_wikipedia(query = ' '):
     print(wikiSummary)
     return wikiSummary
 
+
 def listOrDict(var):
     if isinstance(var, list):
         return var[0]['plaintext']
     else:
         return var['plaintext']
-
-
 
 
 # --- Main ---
