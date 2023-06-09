@@ -1,0 +1,17 @@
+[information]
+name = "Mashbot"
+authors = "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]"
+version = "0.0.5"
+description = "Mashumelo's personal Discord bot"
+readme = "README.md"
+website = "https://github.com/mashumelo/mashumelo"
+
+[config]
+embedColour = 65280
+command_prefix = "!"
+limit = 10
+
+[dependencies]
+"discord.py" = "1.7.2"
+giphy_client = "3.0.0"
+toml = "0.10.2"

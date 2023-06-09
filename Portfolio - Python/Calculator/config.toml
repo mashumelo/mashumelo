@@ -1,0 +1,7 @@
+[information]
+name = "Calculator"
+authors = "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]"
+version = "1.0.0"
+description = "Simple calculator"
+readme = "README.md"
+website = "https://github.com/mashumelo/mashumelo"

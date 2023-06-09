@@ -1,44 +1,51 @@
-#!/usr/bin/env python3
+# Importing libraries
+import toml
 
-# this function adds two numbers
+# Defining functions
+
+
 def add(x, y):
     return x+y
-
-# this function subtracts two numbers
 
 
 def subtract(x, y):
     return x-y
 
-# this function multiplies two numbers
-
 
 def multiply(x, y):
     return x*y
-
-# this function divides two numbers
 
 
 def divide(x, y):
     return x/y
 
-# this function squares a number
-
 
 def squared(x):
     return x**2
-
-# this function gets the exponential power
 
 
 def exppower(x, y):
     return x**y
 
 
-# creates a looping statement that breaks when you don't want to perform another calculation
+# Defining dictionary
+config_data = {
+    "information": {
+        "name": "Calculator",
+        "authors": "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]",
+        "version": "1.0.0",
+        "description": "Simple calculator",
+        "readme": "README.md",
+        "website": "https://github.com/mashumelo/mashumelo",
+    }}
+
+with open("config.toml", "w") as f:
+    toml.dump(config_data, f)
+
+# Creating a looping statement that breaks when you don't want to perform another calculation
 while True:
 
-    # print possible selections for calculator input types
+    # Printing possible selections for calculator input types
     print("Select operation.\n"
           "1.Add\n"
           "2.Subtract\n"
@@ -47,10 +54,10 @@ while True:
           "5.Second Power\n"
           "6.Exponential Power\n")
 
-    # take input from user
+    # Taking input from user
     choice = input("Enter choice(1/2/3/4/5/6): ")
 
-    # check if choice is one of the options
+    # Checking if choice is one of the options
     if choice in ('1', '2', '3', '4'):
         num1 = float(input("Enter first number:\n"))
         num2 = float(input("Enter second number:\n"))
@@ -63,29 +70,24 @@ while True:
         elif choice == '4':
             print(num1, "/", num2, "=", divide(num1, num2))
 
-    # check if choice wants a product to the second power
-    elif choice in ('5'):
+    # Checking if choice wants product to the second power, or exponential power
+    elif choice in ('5', '6'):
         num1 = float(input("Enter number:\n"))
         if choice == '5':
             print(num1, "**", '2', "=", squared(num1))
-
-    # check if choice wants exponential power.
-    elif choice in ('6'):
-        num1 = int(input("Enter base number:\n"))
-        num2 = int(input("Enter power:\n"))
-        if choice == '6':
+        elif choice == '6':
+            num2 = int(input("Enter power:\n"))
             print(num1, "**", num2, "=", exppower(num1, num2))
 
-# check if user wants another calculation
+    # Checking if user wants another calculation
     next_calculation = input(
         "Let's do next calculation? (y/n):\n").capitalize()
-    # break the while loop if answer is no
-    if next_calculation == ("N").capitalize():
+
+    # Breaking the while loop if answer is no, returning the choices if answer is yes, and breaking the while loop if answer is invalid
+    if next_calculation == "N":
         break
-    # return the the choices
-    elif next_calculation == ("Y").capitalize():
+    elif next_calculation == "Y":
         print("You decide to calculate again.")
-    # break the while loop if answer is invalid
     else:
         print("Invalid choice!\n")
         break

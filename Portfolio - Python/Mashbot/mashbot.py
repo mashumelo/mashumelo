@@ -9,6 +9,7 @@ import aiohttp
 import json
 import random
 import secrets
+import toml
 
 # Load Discord and GIPHY tokens from .env
 import os
@@ -24,6 +25,32 @@ command_prefix = "!"
 bot = commands.Bot(command_prefix="!")
 
 limit = 10
+
+# Exports config.toml
+config_data = {
+    "information": {
+    "name": "Mashbot",
+    "authors": "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]",
+    "version": "0.0.5",
+    "description": "Mashumelo's personal Discord bot",
+    "readme": "README.md",
+    "website": "https://github.com/mashumelo/mashumelo",
+    },              
+    "config": {
+        "embedColour": 0x00ff00,
+        "command_prefix": "!",
+        "limit": 10
+    },
+    "dependencies": {
+        "discord.py": "1.7.2",
+        "giphy_client": "3.0.0",
+        "toml": "0.10.2"
+    }
+}
+
+with open("config.toml", "w") as f:
+    toml.dump(config_data, f)
+
 
 # --- Main ---
 
@@ -52,7 +79,6 @@ async def on_ready():
     for guild in bot.guilds:
         # print the servers ID and name
         print(f"{guild.id} - (name: {guild.name})")
-
     # Print how many servers/guilds the bot is in
     print(f"There are {guild_count} servers that Mashbot is in.")
 
@@ -67,12 +93,10 @@ async def on_message(message):
     # If the message is sent equal to "Hello"
     if message.content == ("Hello"):
         # Sends a message to the channel
-        await message.channel.send(f"Hello, {mention.member}!")
-
+        await message.channel.send(f"Hello, {mention.member} welcome to {guild.name}!")
     # Command to import GIF from GIPHY as an embed via $gif <searchTerm>
     if message.content.lower().startswith(f"{command_prefix}gif"):
         gif_url = get_gif(message.content.lower()[5:])
-
         if gif_url is not None:
             embed = discord.Embed()
             embed.set_image(url=gif_url)
@@ -83,13 +107,14 @@ async def on_message(message):
     # Added a basic coinflip command that works via $coinflip
     if message.content.lower().startswith(f"{command_prefix}coinflip"):
         result = random.randint(0, 1)
-
         if result == 0:
             result = "heads"
         else:
             result = "tails"
         response = f"{message.author.mention} flipped a coin and got {result}!"
-        await message.channel.send(response)
+        embed = discord.Embed(
+            title="Coin Flip", description=response, color=embedColour)
+        await message.channel.send(embed=embed)
 
     # Added a basic d20 dice roll command that works with $roll <number of rolls>d<limit>
     if message.content.lower().startswith(f"{command_prefix}roll"):
@@ -98,7 +123,9 @@ async def on_message(message):
             rolls, limit = map(int, dice.split("d"))
         # If the syntax is invalid, send an error message
         except Exception:
-            await message.channel.send("Invalid syntax, use $roll <number of rolls>d<limit>")
+            embed = discord.Embed(
+                title="Invalid syntax", description="Use !roll <number of rolls>d<limit>.", color=embedColour)
+            await message.channel.send(embed=embed)
             return
         # Roll the dice
         results = [secrets.randbelow(limit) + 1 for _ in range(rolls)]
@@ -106,7 +133,9 @@ async def on_message(message):
         response = f"{message.author.mention} rolled {dice} and got {results}"
         if rolls > 1:
             response += f"\nTotal: {total}"
-        await message.channel.send(response)
+        embed = discord.Embed(
+            title="Dice Roll", description=response, color=embedColour)
+        await message.channel.send(embed=embed)
 
 # Event listener for when a member joins the server/guild
 
@@ -117,6 +146,9 @@ async def on_member_join(member):
     embed = discord.Embed(title=f"{member.mention} has joined the server!",
                           description=f"Welcome to the server, {member.mention}!", color=discord.color.green())
     await channel.send(embed=embed)
+    # Adds a role to the member on join
+    role = discord.utils.get(member.guild.roles, id="1014448477050253341")
+    await member.add_roles(role)
 
 # Event listener for when a member leaves the server/guild
 
@@ -138,6 +170,16 @@ async def on_member_ban(member):
         title=f"{member.name} has been banned from {member.guild.name}!", color=discord.Color.red())
     await log_channel.send(embed=embed)
 
+# Event listener for when a member is kicked from the server/guild
+
+
+@bot.event
+async def on_member_kick(member):
+    log_channel = bot.get_channel(1014448478933483580)
+    embed = discord.Embed(
+        title=f"{member.name} has been kicked from {member.guild.name}!", color=discord.Color.red())
+    await log_channel.send(embed=embed)
+
 # Event listener for when a member's attributes are updated
 
 
@@ -145,21 +187,21 @@ async def on_member_ban(member):
 async def on_member_update(before, after):
     # Check if the roles list has changed
     if before.roles != after.roles:
+
         # Get the difference between the before and after roles lists
         added_roles = [
             role for role in after.roles if role not in before.roles]
         removed_roles = [
             role for role in before.roles if role not in after.roles]
 
-        # Log the role changes to a separate channel
         # Log the role change for added roles
         if added_roles:
             role_names = [role.name for role in added_roles]
             role_colors = [role.color for role in added_roles]
             for i in range(len(role_names)):
                 embed = discord.Embed(
-                    title=f"{after.name} was given the {role_names[i]} role", color=discord.Color.blue())
-                if role_colors[i] != discord.Color.default():
+                    title=f"{after.name} was given the {role_names[i]} role", color=role_colors[i])
+                if role_colors[i] != discord.Color.default().value:
                     embed.description = f" (color: {role_colors[i]})"
                 channel = bot.get_channel(1014448478425993250)
                 await channel.send(embed=embed)
@@ -170,8 +212,8 @@ async def on_member_update(before, after):
             role_colors = [role.color for role in removed_roles]
             for i in range(len(role_names)):
                 embed = discord.Embed(
-                    title=f"{after.name} was removed from the {role_names[i]} role", color=discord.Color.blue())
-                if role_colors[i] != discord.Color.default():
+                    title=f"{after.name} was removed from the {role_names[i]} role", color=role_colors[i])
+                if role_colors[i] != discord.Color.default().value:
                     embed.description = f" (color: {role_colors[i]})"
                 channel = bot.get_channel(1014448478425993250)
                 await channel.send(embed=embed)
@@ -212,3 +254,28 @@ if DISCORD_TOKEN is not None:
 # If no token is provided
 else:
     print("No token provided")
+
+
+config_data = {
+    "information": {
+    "name": "Mashbot",
+    "authors": "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]",
+    "version": "0.0.5",
+    "description": "Mashumelo's personal Discord bot",
+    "readme": "README.md",
+    "website": "https://github.com/mashumelo/mashumelo",
+    },              
+    "config": {
+        "embedColour": 0x00ff00,
+        "command_prefix": "!",
+        "limit": 10
+    },
+    "dependencies": {
+        "discord.py": "1.7.2",
+        "giphy_client": "3.0.0",
+        "toml": "0.10.2"
+    }
+}
+
+with open("config.toml", "w") as f:
+    toml.dump(config_data, f)

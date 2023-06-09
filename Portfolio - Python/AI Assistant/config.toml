@@ -1,0 +1,22 @@
+[information]
+name = "AI Assistant"
+authors = "Waylon Neal [<93296689+mashumelo@users.noreply.github.com>]"
+version = "0.0.5"
+description = "Mashumelo's personal AI Assistant"
+readme = "README.md"
+website = "https://github.com/mashumelo/mashumelo"
+
+[config]
+activation_word = "computer"
+discord_path = "/usr/bin/discord"
+firefox_path = "/usr/bin/firefox"
+rate = 120
+spotify_path = "/usr/bin/spotify"
+steam_path = "/home/mashumelo/.steam/debian-installation/steam.sh"
+voice = 11
+
+[dependencies]
+pyttsx3
+speech_recognition
+spotipy
+wikipedia
