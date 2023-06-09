@@ -16,7 +16,7 @@ steam_path = "/home/mashumelo/.steam/debian-installation/steam.sh"
 voice = 11
 
 [dependencies]
-pyttsx3
-speech_recognition
-spotipy
-wikipedia
+"pyttsx3" = "2.90.0"
+"wikipedia" = "1.4.0"
+"spotipy" = "2.24.0"
+"speech_recognition" = "3.10.0"
