@@ -21,8 +21,9 @@ GIPHY_API_KEY = os.environ.get('GIPHY_API_KEY')
 
 # Gets client object from discord.py, client is synonymous with bot
 embedColour = 0x00FF00
-command_prefix = '!'
-bot = commands.Bot(command_prefix='!')
+intents = discord.Intents.all()
+intents.members = True
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 limit = 10
 
