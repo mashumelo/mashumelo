@@ -37,7 +37,7 @@ def get_gif(search):
     data = response.json()
 
     if 'data' in data and len(data['data']) > 0:
-        index = random.randint(0, min(9, len(data['data'])-1))
+        index = secrets.randbelow(min(9, len(data['data'])-1))
         return data['data'][index]['images']['original']['url']
 
     return ('')
@@ -85,6 +85,8 @@ for command in bot.commands:
     bot.remove_command('mute')
 
 # --- Commands ---
+
+
 @bot.command(description='Usage: !kick <member> [reason] - Kicks a member with an optional reason', category='Moderation')
 @commands.has_permissions(kick_members=True)
 @commands.has_any_role(1014448477083795559, 1014448477083795560, 1014448477083795561, 1115164855670935602)
@@ -96,7 +98,8 @@ async def kick(ctx, member: discord.Member, *, reason=None):
     embed = discord.Embed(title='Member Kicked', color=0xff0000)
     embed.add_field(name='Member', value=f'{member.mention}', inline=False)
     embed.add_field(name='Reason', value=reason, inline=False)
-    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    embed.set_author(name=ctx.author.display_name,
+                     icon_url=ctx.author.avatar_url)
 
     await member.kick(reason=reason)
     await ctx.send(embed=embed)
@@ -113,7 +116,8 @@ async def ban(ctx, member: discord.Member, *, reason=None):
     embed = discord.Embed(title='Member Banned', color=0xff0000)
     embed.add_field(name='Member', value=f'{member.mention}', inline=False)
     embed.add_field(name='Reason', value=reason, inline=False)
-    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    embed.set_author(name=ctx.author.display_name,
+                     icon_url=ctx.author.avatar_url)
 
     await member.ban(reason=reason)
     await ctx.send(embed=embed)
@@ -134,7 +138,8 @@ async def mute(ctx, member: discord.Member, *, reason=None, duration: int):
     embed.add_field(name='Member', value=f'{member.mention}', inline=False)
     embed.add_field(name='Duration', value=f'{duration} seconds', inline=False)
     embed.add_field(name='Reason', value=reason, inline=False)
-    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    embed.set_author(name=ctx.author.display_name,
+                     icon_url=ctx.author.avatar_url)
 
     await ctx.send(embed=embed)
 
@@ -145,7 +150,8 @@ async def mute(ctx, member: discord.Member, *, reason=None, duration: int):
     embed = discord.Embed(title='Member Unmuted', color=0x00ff00)
     embed.add_field(name='Member', value=f'{member.mention}', inline=False)
     embed.add_field(name='Reason', value=reason, inline=False)
-    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    embed.set_author(name=ctx.author.display_name,
+                     icon_url=ctx.author.avatar_url)
 
     await ctx.send(embed=embed)
 
@@ -155,7 +161,7 @@ async def gif(ctx, *, search: str):
     # Command to import GIF from GIPHY as an embed via $gif <searchTerm>
     embed = discord.Embed()
     gif_url = get_gif(search)
-    if gif_url is not None:
+    if gif_url:
         embed.set_image(url=gif_url)
         await ctx.send(embed=embed)
     else:
@@ -204,15 +210,16 @@ async def dog(ctx):
         title='Random Dog', description='', color=embedColour)
     embed.set_image(url=data['message'])
     await ctx.send(embed=embed)
-    print(getattr(dog, 'category', None))
 
 
 @bot.command(description='Usage: !help - Display a list of available commands')
 async def help(ctx):
     # Displays a list of available commands
     embed = discord.Embed(title='Mashbot Command List', color=embedColour)
-    mod_commands = [command for command in bot.commands if command.name in ['kick', 'ban', 'mute', 'help']]
-    fun_commands = [command for command in bot.commands if command.name in ['gif', 'coinflip', 'roll', 'dog']]
+    mod_commands = [command for command in bot.commands if command.name in [
+        'kick', 'ban', 'mute', 'help']]
+    fun_commands = [command for command in bot.commands if command.name in [
+        'gif', 'coinflip', 'roll', 'dog']]
     mod_list = [
         f'{chr(8226)} {command.name} - {command.description}' for command in mod_commands]
     fun_list = [
@@ -222,8 +229,6 @@ async def help(ctx):
 
     embed.add_field(name='Moderation', value=mod_message, inline=False)
     embed.add_field(name='Fun', value=fun_message, inline=False)
-    for command in bot.commands:
-        print(f'{command.name}: {getattr(command, "category", None)}')
 
     await ctx.send(embed=embed)
 
