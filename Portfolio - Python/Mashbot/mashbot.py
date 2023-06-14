@@ -20,7 +20,9 @@ DISCORD_TOKEN = os.environ.get('DISCORD_TOKEN')
 GIPHY_API_KEY = os.environ.get('GIPHY_API_KEY')
 
 # Gets client object from discord.py, client is synonymous with bot
-embedColour = 0x00FF00
+embedColour = 0xFFC0CB
+leaveColour = 0xFF0000
+joinColour = 0x00FF00
 intents = discord.Intents.all()
 intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
@@ -94,9 +96,9 @@ for command in bot.commands:
 async def kick(ctx, member: discord.Member, *, reason=None):
     # Command to kick a member
     if reason is None:
-        reason = "No reason given"
+        reason = 'No reason given'
 
-    embed = discord.Embed(title='Member Kicked', color=0xff0000)
+    embed = discord.Embed(title='Member Kicked', colour=leaveColour)
     embed.add_field(name='Member', value=f'{member.mention}', inline=False)
     embed.add_field(name='Reason', value=reason, inline=False)
     embed.set_author(name=ctx.author.display_name,
@@ -112,9 +114,9 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 async def ban(ctx, member: discord.Member, *, reason=None):
     # Command to ban a member
     if reason is None:
-        reason = "No reason given"
+        reason = 'No reason given'
 
-    embed = discord.Embed(title='Member Banned', color=0xff0000)
+    embed = discord.Embed(title='Member Banned', colour=leaveColour)
     embed.add_field(name='Member', value=f'{member.mention}', inline=False)
     embed.add_field(name='Reason', value=reason, inline=False)
     embed.set_author(name=ctx.author.display_name,
@@ -130,12 +132,12 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 async def mute(ctx, member: discord.Member, *, reason=None, duration: int):
     # Command to mute a member
     if reason is None:
-        reason = "No reason given"
+        reason = 'No reason given'
 
     muted_role = discord.utils.get(ctx.guild.roles, id=1014448477083795558)
     await member.add_roles(muted_role)
 
-    embed = discord.Embed(title='Member Muted', color=0xff0000)
+    embed = discord.Embed(title='Member Muted', colour=leaveColour)
     embed.add_field(name='Member', value=f'{member.mention}', inline=False)
     embed.add_field(name='Duration', value=f'{duration} seconds', inline=False)
     embed.add_field(name='Reason', value=reason, inline=False)
@@ -148,7 +150,7 @@ async def mute(ctx, member: discord.Member, *, reason=None, duration: int):
 
     await member.remove_roles(muted_role)
 
-    embed = discord.Embed(title='Member Unmuted', color=0x00ff00)
+    embed = discord.Embed(title='Member Unmuted', colour=joinColour)
     embed.add_field(name='Member', value=f'{member.mention}', inline=False)
     embed.add_field(name='Reason', value=reason, inline=False)
     embed.set_author(name=ctx.author.display_name,
@@ -156,6 +158,20 @@ async def mute(ctx, member: discord.Member, *, reason=None, duration: int):
 
     await ctx.send(embed=embed)
 
+
+@bot.command(description = f'Usage: !userinfo <member> - Displays user info')
+async def userinfo(ctx, member: discord.Member = None):
+    # Command to get user info
+    member = ctx.author if member is None else member
+    roles = [role.name for role in member.roles]
+
+    embed = discord.Embed(title='User Info', color=member.colour)
+    embed.set_thumbnail(url=member.avatar)
+    embed.add_field(name='Username', value=member.name)
+    embed.add_field(name='ID', value=member.id)
+    embed.add_field(name='Join Date', value=member.joined_at.strftime('%Y-%m-%d'))
+
+    await ctx.send(embed=embed)
 
 @bot.command(description='Usage: !gif <searchTerm> - Searches GIPHY and displays a random gif from a search term', category='Fun')
 async def gif(ctx, *, search: str):
@@ -175,7 +191,7 @@ async def coinflip(ctx):
         result = random.choice(['heads', 'tails'])
         response = f'{ctx.author.mention} flipped a coin and got {result}!'
         embed = discord.Embed(
-            title='Coin Flip', description=response, color=embedColour)
+            title='Coin Flip', description=response, colour=embedColour)
         await ctx.send(embed=embed)
 
 
@@ -187,7 +203,7 @@ async def roll(ctx, dice: str):
         # If the syntax is invalid, send an error message
         except ValueError:
             embed = discord.Embed(
-                title='Invalid syntax', description='Use !roll <number of rolls>d<limit>.', color=embedColour)
+                title='Invalid syntax', description='Use !roll <number of rolls>d<limit>.', colour=embedColour)
             await ctx.send(embed=embed)
             return
         # Roll the dice
@@ -198,7 +214,7 @@ async def roll(ctx, dice: str):
             results += f'\nTotal: {total}'
         response = f'{ctx.author.mention} rolled {dice} and got {results}'
         embed = discord.Embed(
-            title='Dice Roll', description=response, color=embedColour)
+            title='Dice Roll', description=response, colour=embedColour)
         await ctx.send(embed=embed)
 
 
@@ -208,7 +224,7 @@ async def dog(ctx):
     request = requests.get('https://dog.ceo/api/breeds/image/random')
     data = request.json()
     embed = discord.Embed(
-        title='Random Dog', description='', color=embedColour)
+        title='Random Dog', description='', colour=embedColour)
     embed.set_image(url=data['message'])
     await ctx.send(embed=embed)
 
@@ -216,9 +232,9 @@ async def dog(ctx):
 @bot.command(description='Usage: !help - Display a list of available commands')
 async def help(ctx):
     # Displays a list of available commands
-    embed = discord.Embed(title='Mashbot Command List', color=embedColour)
+    embed = discord.Embed(title='Mashbot Command List', colour=embedColour)
     mod_commands = [command for command in bot.commands if command.name in [
-        'kick', 'ban', 'mute', 'help']]
+        'help', 'kick', 'ban', 'mute', 'userinfo']]
     fun_commands = [command for command in bot.commands if command.name in [
         'gif', 'coinflip', 'roll', 'dog']]
     mod_list = [
@@ -228,7 +244,7 @@ async def help(ctx):
     mod_message = '\n'.join(mod_list) if mod_list else 'No commands available.'
     fun_message = '\n'.join(fun_list) if fun_list else 'No commands available.'
 
-    embed.add_field(name='Moderation', value=mod_message, inline=False)
+    embed.add_field(name='Moderation/Utility', value=mod_message, inline=False)
     embed.add_field(name='Fun', value=fun_message, inline=False)
 
     await ctx.send(embed=embed)
@@ -240,7 +256,7 @@ async def help(ctx):
 async def on_member_join(member):
     channel = bot.get_channel(1014448478933483580)
     embed = discord.Embed(title=f'{member.mention} has joined the server!',
-                          description=f'Welcome to the server, {member.mention}!', color=discord.color.green())
+                          description=f'Welcome to the server, {member.mention}!', colour=joinColour())
     await channel.send(embed=embed)
     # Adds a role to the member on join
     role = discord.utils.get(member.guild.roles, id='1014448477050253341')
@@ -253,7 +269,7 @@ async def on_member_join(member):
 async def on_member_leave(member):
     channel = bot.get_channel(1014448478933483580)
     embed = discord.Embed(title=f'{member.mention} has left the server!',
-                          description=f'Goodbye, {member.mention}!', color=discord.color.red())
+                          description=f'Goodbye, {member.mention}!', colour=leaveColour())
     await channel.send(embed=embed)
 
 # Event listener for when a member is banned from the server/guild
@@ -263,7 +279,7 @@ async def on_member_leave(member):
 async def on_member_ban(member):
     log_channel = bot.get_channel(1014448478933483580)
     embed = discord.Embed(
-        title=f'{member.name} has been banned from {member.guild.name}!', color=discord.Color.red())
+        title=f'{member.name} has been banned from {member.guild.name}!', colour=leaveColour())
     await log_channel.send(embed=embed)
 
 # Event listener for when a member is kicked from the server/guild
@@ -273,7 +289,7 @@ async def on_member_ban(member):
 async def on_member_kick(member):
     log_channel = bot.get_channel(1014448478933483580)
     embed = discord.Embed(
-        title=f'{member.name} has been kicked from {member.guild.name}!', color=discord.Color.red())
+        title=f'{member.name} has been kicked from {member.guild.name}!', colour=leaveColour())
     await log_channel.send(embed=embed)
 
 # Event listener for when a member's attributes are updated
@@ -293,32 +309,32 @@ async def on_member_update(before, after):
         # Log the role change for added roles
         if added_roles:
             role_names = [role.name for role in added_roles]
-            role_colors = [role.color for role in added_roles]
+            role_colours = [role.colour for role in added_roles]
             for i in range(len(role_names)):
                 embed = discord.Embed(
-                    title=f'{after.name} was given the {role_names[i]} role', color=role_colors[i])
-                if role_colors[i] != discord.Color.default().value:
-                    embed.description = f' (color: {role_colors[i]})'
+                    title=f'{after.name} was given the {role_names[i]} role', colour=role_colours[i])
+                if role_colours[i] != discord.colour.default().value:
+                    embed.description = f' (colour: {role_colours[i]})'
                 channel = bot.get_channel(1014448478425993250)
                 await channel.send(embed=embed)
 
         # Log the role change for removed roles
         if removed_roles:
             role_names = [role.name for role in removed_roles]
-            role_colors = [role.color for role in removed_roles]
+            role_colours = [role.colour for role in removed_roles]
             for i in range(len(role_names)):
                 embed = discord.Embed(
-                    title=f'{after.name} was removed from the {role_names[i]} role', color=role_colors[i])
-                if role_colors[i] != discord.Color.default().value:
-                    embed.description = f' (color: {role_colors[i]})'
+                    title=f'{after.name} was removed from the {role_names[i]} role', colour=role_colours[i])
+                if role_colours[i] != discord.colour.default().value:
+                    embed.description = f' (colour: {role_colours[i]})'
                 channel = bot.get_channel(1014448478425993250)
                 await channel.send(embed=embed)
 
-    # Check if the role colors have changed
+    # Check if the role colours have changed
     for role in after.roles:
-        if role in before.roles and role.color != before.roles[before.roles.index(role)].color:
+        if role in before.roles and role.colour != before.roles[before.roles.index(role)].colour:
             embed = discord.Embed(
-                title=f'The {role.name} role color was updated for {after.name} (new color: {role.color})')
+                title=f'The {role.name} role colour was updated for {after.name} (new colour: {role.colour})')
             channel = bot.get_channel(1014448478425993250)
             await channel.send(embed=embed)
 
@@ -332,21 +348,21 @@ async def on_voice_state_update(member, before, after):
         # Log the leave
         if before.channel:
             embed = discord.Embed(
-                title='Voice Channel Leave', description=f'{member.name} left voice channel {before.channel.name}', color=discord.Color.red())
+                title='Voice Channel Leave', description=f'{member.name} left voice channel {before.channel.name}', colour=leaveColour())
             channel = bot.get_channel(1014448478425993250)
             await channel.send(embed=embed)
 
         # Log the join
         if after.channel:
             embed = discord.Embed(
-                title='Voice Channel Join', description=f'{member.name} joined voice channel {after.channel.name}', color=discord.Color.green())
+                title='Voice Channel Join', description=f'{member.name} joined voice channel {after.channel.name}', colour=joinColour())
             channel = bot.get_channel(1014448478425993250)
             await channel.send(embed=embed)
 
 
 # Executes bot with specified token
 if DISCORD_TOKEN is not None:
-    print("Starting bot...")
+    print('Starting bot...')
     bot.run(DISCORD_TOKEN.strip())
 # If no token is provided
 else:
