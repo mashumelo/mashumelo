@@ -9,8 +9,6 @@ I hope to someday develop FOSS to help those with issues they may be having, and
 Currently working on PHP, HTML, Javascript, Python, and C++.
 VSCodium is the current Code Editor I'm using, and so far prefer.
 
-I am working to push this repository to both github and gitlab eventually.
-
 <!--
 **Mashumelo/mashumelo** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
