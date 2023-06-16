@@ -256,7 +256,7 @@ async def help(ctx):
 async def on_member_join(member):
     channel = bot.get_channel(1014448478933483580)
     embed = discord.Embed(title=f'{member.mention} has joined the server!',
-                          description=f'Welcome to the server, {member.mention}!', colour=joinColour())
+                          description=f'Welcome to the server, {member.mention}!', colour=joinColour)
     await channel.send(embed=embed)
     # Adds a role to the member on join
     role = discord.utils.get(member.guild.roles, id='1014448477050253341')
@@ -269,7 +269,7 @@ async def on_member_join(member):
 async def on_member_leave(member):
     channel = bot.get_channel(1014448478933483580)
     embed = discord.Embed(title=f'{member.mention} has left the server!',
-                          description=f'Goodbye, {member.mention}!', colour=leaveColour())
+                          description=f'Goodbye, {member.mention}!', colour=leaveColour)
     await channel.send(embed=embed)
 
 # Event listener for when a member is banned from the server/guild
@@ -279,7 +279,7 @@ async def on_member_leave(member):
 async def on_member_ban(member):
     log_channel = bot.get_channel(1014448478933483580)
     embed = discord.Embed(
-        title=f'{member.name} has been banned from {member.guild.name}!', colour=leaveColour())
+        title=f'{member.name} has been banned from {member.guild.name}!', colour=leaveColour)
     await log_channel.send(embed=embed)
 
 # Event listener for when a member is kicked from the server/guild
@@ -289,7 +289,7 @@ async def on_member_ban(member):
 async def on_member_kick(member):
     log_channel = bot.get_channel(1014448478933483580)
     embed = discord.Embed(
-        title=f'{member.name} has been kicked from {member.guild.name}!', colour=leaveColour())
+        title=f'{member.name} has been kicked from {member.guild.name}!', colour=leaveColour)
     await log_channel.send(embed=embed)
 
 # Event listener for when a member's attributes are updated
@@ -348,14 +348,14 @@ async def on_voice_state_update(member, before, after):
         # Log the leave
         if before.channel:
             embed = discord.Embed(
-                title='Voice Channel Leave', description=f'{member.name} left voice channel {before.channel.name}', colour=leaveColour())
+                title='Voice Channel Leave', description=f'{member.name} left voice channel {before.channel.name}', colour=leaveColour)
             channel = bot.get_channel(1014448478425993250)
             await channel.send(embed=embed)
 
         # Log the join
         if after.channel:
             embed = discord.Embed(
-                title='Voice Channel Join', description=f'{member.name} joined voice channel {after.channel.name}', colour=joinColour())
+                title='Voice Channel Join', description=f'{member.name} joined voice channel {after.channel.name}', colour=joinColour)
             channel = bot.get_channel(1014448478425993250)
             await channel.send(embed=embed)
 
