@@ -1,4 +1,3 @@
-# --- Test Commit ---
 # # --- Setup ---
 
 # Import Discord.py, allows access to Discord API
