@@ -4,9 +4,8 @@ I am going to be using this repository for notes and particularly interesting in
 
 The beginning of this repository will be for code as I learn to develop more efficiently using different methods.
 
-I hope to someday develop FOSS to help those with issues they may be having, and hopefully to help within the Linux community. It's been my favorite OS with Arch as my favorite distro for many years, and has helped me improve in many skills within understanding CLI and bash.
-
-Currently working on PHP, HTML, Javascript, Python, and C++.
+I hope to someday develop FOSS to help those with issues they may be having, and hopefully to help within the Linux community.
+Currently working on Java, C++, and Python
 VSCodium is the current Code Editor I'm using, and so far prefer.
 
 <!--
