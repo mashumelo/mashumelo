@@ -14,6 +14,7 @@ public class EventListener extends ListenerAdapter {
         // Get the text channel where you want to send the update
         TextChannel channel = event.getGuild().getTextChannelById("1122394088189206550");
         User user = event.getEntity().getUser();
+        String serverName = event.getGuild().getName();
         AudioChannel oldChannel = event.getChannelLeft();
         AudioChannel newChannel = event.getChannelJoined();
 
@@ -30,5 +31,19 @@ public class EventListener extends ListenerAdapter {
             channel.sendMessage(message).complete();
             System.out.println(message);
         }
+
+        // Check if the user joined or left the server
+        if (event.getGuild().getMember(user) != null) {
+         // User joined the server
+            String message = user.getAsMention() + " has joined" + serverName + "!";
+            channel.sendMessage(message).complete();
+            System.out.println(message);
+        } else {
+            // User left the server
+            String message = user.getAsMention() + " has left" + serverName + "!";
+            channel.sendMessage(message).complete();
+            System.out.println(message);
+        }
+
     }
 }

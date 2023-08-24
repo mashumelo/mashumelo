@@ -1,6 +1,7 @@
 #!/bin/bash
 cd ~/ || exit
-LIST_OF_APPS=""
+echo "What are the list of apps you'd like to install on your system? (By package names)"
+read LIST_OF_APPS
 echo "Which distro are you running? Fedora, Ubuntu (Choose for Linux Mint, Pop!_OS, or other Ubuntu derivatives.) or Arch? "
 read DISTRO
 echo "Would you like to update the system? "

@@ -1,7 +1,6 @@
 package mashumelo;
 
 //Imports
-import java.io.File;
 import java.io.FileReader;
 
 import javax.security.auth.login.LoginException;
@@ -28,6 +27,7 @@ public class mashbot
 
         //Register Event Listener
         shardManager.addEventListener(new EventListener());
+        shardManager.addEventListener(new CommandManager());
     
     }
 
