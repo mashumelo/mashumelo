@@ -1,5 +1,5 @@
 ## Current PC Specs
- OS: Fedora Linux 38 (Workstation Edition)\
+ OS: Arch Linux running bspwm, polybar, rofi, with picom as compositor\
  Motherboard: B550M PRO-VDH WIFI\
  CPU: AMD Ryzen 5 5600X x 6 Cores\
  GPU: Nvidia GeForce RTX 3060\
