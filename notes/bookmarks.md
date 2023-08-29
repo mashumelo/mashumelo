@@ -9,7 +9,7 @@ Arch User Repository:
 VSCodium Github Page:
 [VSCodium Github Page](https://github.com/VSCodium/vscodium)
 
-PCPartPicker
+PCPartPicker:
 [Pick parts. Build your PC. Compare and share. - PCPartPicker](https://pcpartpicker.com)
 
 Linux Mint Community Page:
