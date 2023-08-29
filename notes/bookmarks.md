@@ -9,10 +9,7 @@ Arch User Repository:
 VSCodium Github Page:
 [VSCodium Github Page](https://github.com/VSCodium/vscodium)
 
-Linux Tracker:
-[Linux Tracker](https://linuxtracker.org/)
-
-PCPartPicker:
+PCPartPicker
 [Pick parts. Build your PC. Compare and share. - PCPartPicker](https://pcpartpicker.com)
 
 Linux Mint Community Page:
@@ -29,11 +26,3 @@ UserBenchmark:
 
 CC Search:
 [CC Search](https://search.creativecommons.org/)
-
-Flathub:
-[Flathub](https://flathub.org/)
-
-Veloren Wiki:
-[Veloren Wiki](https://wiki.veloren.net/)
-
-
