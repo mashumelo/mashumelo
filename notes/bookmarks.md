@@ -26,3 +26,12 @@ UserBenchmark:
 
 CC Search:
 [CC Search](https://search.creativecommons.org/)
+
+Flathub:
+[Flathub](https://flathub.org/)
+
+Linux Tracker:
+[Linux Tracker](https://linuxtracker.org/)
+
+Veloren Wiki:
+[Veloren Wiki](https://wiki.veloren.net/)
