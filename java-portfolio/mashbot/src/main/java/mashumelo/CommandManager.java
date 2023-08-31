@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import java.awt.Color;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -23,7 +22,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.JSONArray;
 import org.jetbrains.annotations.NotNull;
-
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +52,30 @@ public class CommandManager extends ListenerAdapter {
     return catImageUrl;
 }
 
+    public String getRandomDogImageUrl() {
+        String dogImageUrl = "";
+
+        try {
+
+            HttpClient httpClient = HttpClientBuilder.create().build();
+
+            HttpGet request = new HttpGet("https://api.thedogapi.com/v1/images/search");
+
+            HttpResponse response = httpClient.execute(request);
+
+            String responseBody = EntityUtils.toString(response.getEntity());
+
+            JSONArray jsonArray = (JSONArray) JSONValue.parse(responseBody);
+            JSONObject jsonObject = (JSONObject) jsonArray.get(0);
+
+            dogImageUrl = (String) jsonObject.get("url");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return dogImageUrl;
+}
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String command = event.getName();
@@ -63,7 +86,7 @@ public class CommandManager extends ListenerAdapter {
     
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle("List of commands");
-            embedBuilder.setDescription("/roles - Lists all roles in the guild\n/say - Sends a message to a channel\n/d20 - Rolls a d20\n/diceroll - Rolls a dice\n/cat - Gets a random cat image");
+            embedBuilder.setDescription("/roles - Lists all roles in the guild\n/say - Sends a message to a channel\n/d20 - Rolls a d20\n/diceroll - Rolls a dice\n/cat - Gets a random cat image\n/dog - Gets a random dog image\n/help - Shows this message");
             embedBuilder.setColor(Color.BLUE);
     
             MessageEmbed embed = embedBuilder.build();
@@ -135,29 +158,41 @@ public class CommandManager extends ListenerAdapter {
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.setColor (Color.GREEN);
-            embed.setTitle ("Cat");
+            embed.setTitle ("Here's a Cat!");
             embed.setImage (catImageUrl);
 
             MessageChannel channel = event.getChannel();
 
             channel.sendMessageEmbeds(embed.build()).queue();
         }
+
+        else if (command.equals ("dog")) {
+            String dogImageUrl = getRandomDogImageUrl();
+
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.setColor (Color.GREEN);
+            embed.setTitle ("Here's a Dog!");
+            embed.setImage (dogImageUrl);
+
+            MessageChannel channel = event.getChannel();
+
+            channel.sendMessageEmbeds(embed.build()).queue();
     }
+}
 
 
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         
         List<CommandData> commandData = new ArrayList<>();
-        commandData.add(Commands.slash("roles", "Display the roles available in the server."));
-
         OptionData option1 = new OptionData(OptionType.STRING, "message" , "The message to send.", true);
         OptionData option2 = new OptionData(OptionType.CHANNEL,"channel", "The channel to send the message to.", false);
+        commandData.add(Commands.slash("roles", "Display the roles available in the server."));
         commandData.add(Commands.slash("say", "Says the text from input.").addOptions(option1, option2));
-
         commandData.add(Commands.slash("d20", "Rolls a d20."));
         commandData.add(Commands.slash("diceroll", "Rolls a dice."));
         commandData.add(Commands.slash("cat", "Sends a random cat image."));
+        commandData.add(Commands.slash("dog", "Sends a random dog image."));
 
         event.getGuild().updateCommands().addCommands(commandData).queue();
     }
