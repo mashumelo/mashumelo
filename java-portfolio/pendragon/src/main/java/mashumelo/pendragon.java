@@ -1,10 +1,8 @@
 package mashumelo;
 
-//Imports
+//imports
 import java.io.FileReader;
-
 import javax.security.auth.login.LoginException;
-
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -13,12 +11,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 
-public class mashbot
+public class pendragon
 {
 
     private final ShardManager shardManager;
 
-    public mashbot(String apiToken) throws LoginException
+    public pendragon(String apiToken) throws LoginException
     {
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(apiToken);
         builder.setStatus(OnlineStatus.ONLINE);
@@ -40,7 +38,7 @@ public class mashbot
     
         try {
             JSONParser parser = new JSONParser();
-            Object obj = parser.parse(new FileReader("java-portfolio/mashbot/src/main/java/mashumelo/config.json"));
+            Object obj = parser.parse(new FileReader("java-portfolio/pendragon/src/main/java/mashumelo/config.json"));
             JSONObject config = (JSONObject) obj;
             apiToken = (String) config.get("token"); // Initialize apiToken inside the try block
         } catch (Exception e) {
@@ -49,7 +47,7 @@ public class mashbot
     
         try {
             System.out.println(apiToken);
-            mashbot bot = new mashbot(apiToken); // Pass apiToken as a parameter to the constructor
+            pendragon bot = new pendragon(apiToken); // Pass apiToken as a parameter to the constructor
         } catch (LoginException e) {
             System.out.println("ERROR: Bot Token provided is invalid!");
         }

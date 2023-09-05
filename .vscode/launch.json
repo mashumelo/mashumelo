@@ -6,16 +6,23 @@
     "configurations": [
         {
             "type": "java",
+            "name": "pendragon",
+            "request": "launch",
+            "mainClass": "mashumelo.pendragon",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
         },
         {
             "type": "java",
-            "name": "mashbot",
+            "name": "pendragon",
             "request": "launch",
-            "mainClass": "mashumelo.mashbot",
-            "projectName": "mashbot"
+            "mainClass": "mashumelo.pendragon",
+            "projectName": "pendragon"
         }
     ]
 }

@@ -1,5 +1,6 @@
 package mashumelo;
 
+//imports
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.Channel;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
 
+    //implements the cat api for a random cat image
     public String getRandomCatImageUrl() {
     String catImageUrl = "";
 
@@ -53,6 +55,7 @@ public class CommandManager extends ListenerAdapter {
     return catImageUrl;
 }
 
+    //implements the dog api for a random dog image
     public String getRandomDogImageUrl() {
         String dogImageUrl = "";
 
@@ -82,6 +85,7 @@ public class CommandManager extends ListenerAdapter {
         String command = event.getName();
         String userTag = event.getUser().getAsMention();
 
+        //implements a /help command
         if (command.equals("help")) {
             event.deferReply().setEphemeral(true).queue();
     
@@ -94,6 +98,7 @@ public class CommandManager extends ListenerAdapter {
             event.getHook().sendMessageEmbeds(embed).queue();
         }
 
+        //implements a /roles command
         else if (command.equals("roles")) {
             event.deferReply().setEphemeral(true).queue();
             String response = "";
@@ -103,6 +108,7 @@ public class CommandManager extends ListenerAdapter {
             event.getHook().sendMessage(response).queue();
         }
 
+        //implements a /say command
         else if (command.equals("say")) {
             OptionMapping messageOption = event.getOption("message");
             String message = messageOption.getAsString();
@@ -131,6 +137,7 @@ public class CommandManager extends ListenerAdapter {
             event.reply(userTag + "Your message was sent!").setEphemeral(true).queue();
             }
 
+        //implements a /d20 command
         else if (command.equals("d20")) {
             event.deferReply().setEphemeral(false).queue();
 
@@ -142,6 +149,7 @@ public class CommandManager extends ListenerAdapter {
             event.getHook().sendMessageEmbeds(embed.build()).queue();
         }
 
+        //implements a /diceroll command
         else if (command.equals("diceroll")) {
             event.deferReply().setEphemeral(false).queue();
 
@@ -154,6 +162,7 @@ public class CommandManager extends ListenerAdapter {
 
         }
 
+        //implements a /coinflip command
         else if (command.equals("coinflip")) {
             event.deferReply().setEphemeral(false).queue();
 
@@ -168,6 +177,7 @@ public class CommandManager extends ListenerAdapter {
             event.getHook().sendMessageEmbeds(embed.build()).queue();
         }
 
+        //implements /dog command using the cat api
         else if (command.equals("cat")) {
             String catImageUrl = getRandomCatImageUrl();
 
@@ -181,6 +191,7 @@ public class CommandManager extends ListenerAdapter {
             channel.sendMessageEmbeds(embed.build()).queue();
         }
 
+        //implements /dog command using the dog api
         else if (command.equals("dog")) {
             String dogImageUrl = getRandomDogImageUrl();
 
@@ -195,18 +206,20 @@ public class CommandManager extends ListenerAdapter {
     }
 }
 
-
+    //adds commands to the bot using commandData and the updateCommands method
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         
         List<CommandData> commandData = new ArrayList<>();
+
         OptionData option1 = new OptionData(OptionType.STRING, "message" , "The message to send.", true);
         OptionData option2 = new OptionData(OptionType.CHANNEL,"channel", "The channel to send the message to.", false);
+
         commandData.add(Commands.slash("roles", "Display the roles available in the server."));
         commandData.add(Commands.slash("say", "Says the text from input.").addOptions(option1, option2));
         commandData.add(Commands.slash("d20", "Rolls a d20."));
         commandData.add(Commands.slash("diceroll", "Rolls a dice."));
-        commandData.add(Commands.slash("coinflip", "Flips a coin."));
+        //commandData.add(Commands.slash("coinflip", "Flips a coin."));
         commandData.add(Commands.slash("cat", "Sends a random cat image."));
         commandData.add(Commands.slash("dog", "Sends a random dog image."));
 
