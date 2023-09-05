@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class CommandManager extends ListenerAdapter {
 
     public String getRandomCatImageUrl() {
@@ -86,7 +87,7 @@ public class CommandManager extends ListenerAdapter {
     
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setTitle("List of commands");
-            embedBuilder.setDescription("/roles - Lists all roles in the guild\n/say - Sends a message to a channel\n/d20 - Rolls a d20\n/diceroll - Rolls a dice\n/cat - Gets a random cat image\n/dog - Gets a random dog image\n/help - Shows this message");
+            embedBuilder.setDescription("/roles - Lists all roles in the guild\n/say - Sends a message to a channel\n/d20 - Rolls a d20\n/diceroll - Rolls a dice\n/coinflip - Flips a coin\n/cat - Gets a random cat image\n/dog - Gets a random dog image\n/help - Shows this message");
             embedBuilder.setColor(Color.BLUE);
     
             MessageEmbed embed = embedBuilder.build();
@@ -153,7 +154,21 @@ public class CommandManager extends ListenerAdapter {
 
         }
 
-        else if (command.equals ("cat")) {
+        else if (command.equals("coinflip")) {
+            event.deferReply().setEphemeral(false).queue();
+
+            int randomNumber = (int) (Math.random() * 2);
+            String result = (randomNumber == 0) ? "Heads" : "Tails";
+
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.setColor (Color.PINK);
+            embed.setTitle ("Coin Flip");
+            embed.setDescription (userTag + " flipped a coin and it landed on " + result);
+
+            event.getHook().sendMessageEmbeds(embed.build()).queue();
+        }
+
+        else if (command.equals("cat")) {
             String catImageUrl = getRandomCatImageUrl();
 
             EmbedBuilder embed = new EmbedBuilder();
@@ -166,7 +181,7 @@ public class CommandManager extends ListenerAdapter {
             channel.sendMessageEmbeds(embed.build()).queue();
         }
 
-        else if (command.equals ("dog")) {
+        else if (command.equals("dog")) {
             String dogImageUrl = getRandomDogImageUrl();
 
             EmbedBuilder embed = new EmbedBuilder();
@@ -191,6 +206,7 @@ public class CommandManager extends ListenerAdapter {
         commandData.add(Commands.slash("say", "Says the text from input.").addOptions(option1, option2));
         commandData.add(Commands.slash("d20", "Rolls a d20."));
         commandData.add(Commands.slash("diceroll", "Rolls a dice."));
+        commandData.add(Commands.slash("coinflip", "Flips a coin."));
         commandData.add(Commands.slash("cat", "Sends a random cat image."));
         commandData.add(Commands.slash("dog", "Sends a random dog image."));
 

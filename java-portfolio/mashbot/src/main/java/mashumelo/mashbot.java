@@ -22,7 +22,7 @@ public class mashbot
     {
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(apiToken);
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.watching("Mash's Server"));
+        builder.setActivity(Activity.watching("Anime"));
         shardManager = builder.build();
 
         //Register Event Listener
