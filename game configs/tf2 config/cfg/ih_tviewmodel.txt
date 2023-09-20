@@ -1,0 +1,1 @@
+Resource/HudLayout.res { ViewmodelRefract { visible 1 enabled 1 image replay/thumbnails/misc/viewmodel/viewmodel_refract_1 } } 
