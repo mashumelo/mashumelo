@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$basetexture"	"tracer/tracer5"
+	"$vertexcolor"	1
+	"$vertexalpha"	1
+	"$nocull" 		1
+	$DEPTHBLEND "0"   
+}

@@ -219,7 +219,7 @@ public class CommandManager extends ListenerAdapter {
         commandData.add(Commands.slash("say", "Says the text from input.").addOptions(option1, option2));
         commandData.add(Commands.slash("d20", "Rolls a d20."));
         commandData.add(Commands.slash("diceroll", "Rolls a dice."));
-        //commandData.add(Commands.slash("coinflip", "Flips a coin."));
+        //commandData.add(CPommands.slash("coinflip", "Flips a coin."));
         commandData.add(Commands.slash("cat", "Sends a random cat image."));
         commandData.add(Commands.slash("dog", "Sends a random dog image."));
 

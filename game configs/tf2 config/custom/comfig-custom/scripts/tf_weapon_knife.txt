@@ -52,7 +52,7 @@
 		}
 		"crosshair"
 		{
-			"file" "vgui/replay/thumbnails/crosshair2OL"
+			"file" "vgui/replay/thumbnails/crosshair3OL"
 			"x" "0"
 			"y" "0"
 			"width" "64"

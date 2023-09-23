@@ -1,0 +1,8 @@
+"Spritecard"
+{
+	"$basetexture"	"env/rain_splash"
+	"$additive"	1
+	"$vertexcolor"	1
+	"$vertexalpha"	1
+	$DEPTHBLEND "0"   
+}

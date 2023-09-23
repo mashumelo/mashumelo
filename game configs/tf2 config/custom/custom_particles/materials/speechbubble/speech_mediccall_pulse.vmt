@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$basetexture"	"speechbubble/speech_mediccall_pulse"
+	"$surfaceprop"	"no_decal"
+	"$translucent"	1
+	"$vertexcolor"	1
+	"$vertexalpha"	1
+}

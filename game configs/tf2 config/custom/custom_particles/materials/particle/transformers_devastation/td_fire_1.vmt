@@ -1,0 +1,7 @@
+"spritecard"
+{
+	"$basetexture" "particle\transformers_devastation\td_fire_1"
+	$translucent 	1
+	$addself		1
+	$overbrightfactor	5
+}

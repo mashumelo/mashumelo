@@ -1,0 +1,7 @@
+SpriteCard
+{
+$basetexture "particle\transformers_devastation\TD_elec_sprite"
+$translucent	1
+$addself		1
+$overbrightfactor	2.5
+}

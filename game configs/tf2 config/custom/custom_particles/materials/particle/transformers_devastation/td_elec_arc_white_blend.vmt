@@ -1,0 +1,8 @@
+"spritecard"
+{
+	$basetexture	"particle/transformers_devastation/TD_elec_arc_white"
+	$translucent		1
+	$addself			1
+	$blendframes		1
+	$overbrightfactor		2.5
+}
