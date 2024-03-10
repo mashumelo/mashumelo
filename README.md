@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm Mashumelo</h1>
 <h3 align="center">A passionate Linux user, and aspiring software developer</h3>
 
-- 🔭 I’m currently working on [mashbot](https://github.com/mashumelo/mashumelo/tree/main/java-portfolio/mashbot)
+- 🔭 I’m currently working on [**pendragon**](https://github.com/mashumelo/mashumelo/tree/main/java-portfolio/pendragon) my Discord bot
 
 - 🌱 I’m currently learning **Java, gtk, and blender**
 
