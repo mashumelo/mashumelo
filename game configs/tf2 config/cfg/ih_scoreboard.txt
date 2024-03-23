@@ -1,1 +1,0 @@
-#base ../custom/insomniahud/customization/_dev/scoreboard/sizes/12v12.res 

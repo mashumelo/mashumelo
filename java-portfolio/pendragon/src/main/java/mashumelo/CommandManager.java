@@ -50,6 +50,7 @@ public class CommandManager extends ListenerAdapter {
         catImageUrl = (String) jsonObject.get("url");
     } catch (Exception e) {
         e.printStackTrace();
+        catImageUrl = "Error: Failed to fetch cat image.";
     }
 
     return catImageUrl;
@@ -75,6 +76,7 @@ public class CommandManager extends ListenerAdapter {
             dogImageUrl = (String) jsonObject.get("url");
         } catch (Exception e) {
             e.printStackTrace();
+            dogImageUrl = "Error: Failed to fetch dog image.";
         }
         
         return dogImageUrl;

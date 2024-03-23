@@ -1,16 +1,15 @@
 "motd_entries"
 {
-	"last_request_time"		"NIL"
+	"last_request_time"		"2024-03-21 16:24:28"
 	"last_request_language"		"english"
-	"108"
+	"113"
 	{
-		"post_time"		"2023-07-13 02:55:00"
-		"title_english"		"Summer"
-		"text_english"		"Summer brings new community maps, community cosmetics, community taunts, community Unusual effects, and community War Paints! The Summer event runs through September 15, 2023."
-		"url"		"http://www.teamfortress.com/post.php?id=206148"
-		"image"		"../vgui/main_menu/motd_meet_your_match"
+		"post_time"		"2024-01-09 02:55:00"
+		"title_english"		"Checked out the blog?"
+		"text_english"		"If you haven't read the official TF2 blog, it's full of insights into our development process, links to notable community productions, and random stories about our love of hats. Hit the button below to take a look!"
+		"url"		"http://www.teamfortress.com/"
+		"image"		"../logo/new_tf2_logo"
 		"header_type"		"0"
-		"header_english"		"News"
-		"header_icon"		"class_icons/filter_all_motd"
+		"header_english"		"#MMenu_News"
 	}
 }

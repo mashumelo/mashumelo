@@ -1,0 +1,186 @@
+<!DOCTYPE patchbay>
+<patchbay name="Main Session" version="0.6.2">
+ <items>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Music Player Daemon" port="Music Player Daemon:output_FL"/>
+   <input node="2.Music" port="2.Music:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Halo Infinite-1" port="Halo Infinite:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium" port="Chromium:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Overwatch" port="Overwatch:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="1.Desktop" port="1.Desktop:capture_FR"/>
+   <input node="jack_mixer" port="jack_mixer:Music R"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="mpv" port="mpv:output_FR"/>
+   <input node="jack_mixer" port="jack_mixer:Music R"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="WEBRTC VoiceEngine" port="WEBRTC VoiceEngine:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="jack_mixer" port="jack_mixer:Speaker R"/>
+   <input node="Starship/Matisse HD Audio Controller Analog Stereo" port="ALC897 Analog:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="2.Music" port="2.Music:capture_FL"/>
+   <input node="jack_mixer" port="jack_mixer:Music L"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="jack_mixer" port="jack_mixer:Speaker L"/>
+   <input node="Starship/Matisse HD Audio Controller Analog Stereo" port="ALC897 Analog:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="PipeWire ALSA [java]/ALSA Playback [java]" port="ALSA Playback [java]:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Music Player Daemon" port="Music Player Daemon:output_FR"/>
+   <input node="2.Music" port="2.Music:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium-4" port="Chromium:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="PipeWire ALSA [java]/ALSA Playback [java]-1" port="ALSA Playback [java]:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Halo Infinite" port="Halo Infinite:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="jack_mixer" port="jack_mixer:Mic Out"/>
+   <input node="Chromium input" port="Chromium input:input_MONO"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="spotify" port="spotify:output_FL"/>
+   <input node="2.Music" port="2.Music:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="spotify" port="spotify:output_FR"/>
+   <input node="2.Music" port="2.Music:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium" port="Chromium:output_FL"/>
+   <input node="parec" port="parec:input_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Overwatch" port="Overwatch:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="mpv" port="mpv:output_FL"/>
+   <input node="jack_mixer" port="jack_mixer:Music L"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium" port="Chromium:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium" port="Chromium:output_FR"/>
+   <input node="parec" port="parec:input_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Fifine Microphone Mono" port="Fifine Microphone:capture_MONO"/>
+   <input node="jack_mixer" port="jack_mixer:Mic"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="jack_mixer" port="jack_mixer:Mic Out"/>
+   <input node="WEBRTC VoiceEngine" port="WEBRTC VoiceEngine:input_MONO"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Team Fortress 2" port="Team Fortress 2:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="2.Music" port="2.Music:capture_FR"/>
+   <input node="jack_mixer" port="jack_mixer:Music R"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium-3" port="Chromium:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Team Fortress 2" port="Team Fortress 2:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium-1" port="Chromium:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Halo Infinite-1" port="Halo Infinite:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium-1" port="Chromium:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="jack_mixer" port="jack_mixer:Speaker R"/>
+   <input node="OBS Studio: JACK Input Client" port="OBS Studio: JACK Input Client:in_2"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="PipeWire ALSA [java]/ALSA Playback [java]-1" port="ALSA Playback [java]:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="jack_mixer" port="jack_mixer:Mic Out"/>
+   <input node="steam" port="steam:input_MONO"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="jack_mixer" port="jack_mixer:Speaker L"/>
+   <input node="OBS Studio: JACK Input Client" port="OBS Studio: JACK Input Client:in_1"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium-3" port="Chromium:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="WEBRTC VoiceEngine" port="WEBRTC VoiceEngine:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Halo Infinite-2" port="Halo Infinite:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="jack_mixer" port="jack_mixer:Mic Out"/>
+   <input node="OBS-1" port="OBS:input_MONO"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="1.Desktop" port="1.Desktop:capture_FL"/>
+   <input node="jack_mixer" port="jack_mixer:Music L"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Chromium-4" port="Chromium:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Halo Infinite-2" port="Halo Infinite:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="PipeWire ALSA [java]/ALSA Playback [java]" port="ALSA Playback [java]:output_FR"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FR"/>
+  </item>
+  <item node-type="pipewire" port-type="pipewire-audio">
+   <output node="Halo Infinite" port="Halo Infinite:output_FL"/>
+   <input node="1.Desktop" port="1.Desktop:playback_FL"/>
+  </item>
+ </items>
+</patchbay>
+
